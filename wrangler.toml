@@ -1,5 +1,6 @@
 name = "ai-assistant-library"
 compatibility_date = "2023-01-01"
+pages_build_output_dir = "./"
 
 [site]
 bucket = "./"
