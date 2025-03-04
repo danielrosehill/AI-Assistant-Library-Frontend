@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Sitemap: https://aiagents.bydanielrosehill.com/sitemap.xml
+
+# Disallow build files and raw data
+Disallow: /build.js
+Disallow: /build-all.sh
+Disallow: /build-output.txt
+Disallow: /configs-list.json

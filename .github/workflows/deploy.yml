@@ -1,0 +1,36 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 📦
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies 🔧
+        run: npm ci
+        
+      - name: Build Website 🏗️
+        run: npm run build:all
+        
+      - name: Deploy to Cloudflare Pages 🚀
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ai-assistant-library
+          directory: .
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          # Custom domain will be configured in Cloudflare dashboard
+          # to point to aiagents.bydanielrosehill.com

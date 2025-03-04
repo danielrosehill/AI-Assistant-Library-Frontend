@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant Library | Avatar Gallery</title>
+    <meta name="description" content="A gallery of AI assistant avatars created by Daniel Rosehill.">
+    <meta name="keywords" content="AI, artificial intelligence, assistant, system prompts, avatars, Daniel Rosehill">
+    <meta name="author" content="Daniel Rosehill">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="AI Assistant Library | Avatar Gallery">
+    <meta property="og:description" content="A gallery of AI assistant avatars created by Daniel Rosehill.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aiagents.bydanielrosehill.com/gallery.html">
+    <meta property="og:image" content="https://aiagents.bydanielrosehill.com/banner.webp">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://aiagents.bydanielrosehill.com/gallery.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Monoton&family=Orbitron:wght@400;700&family=Pacifico&family=Press+Start+2P&family=Exo+2:wght@400;700&family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        /* Gallery specific styles */
+        .gallery-container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .gallery-header h2 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--accent-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--accent-color);
+            cursor: pointer;
+        }
+        
+        .gallery-item-info {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .gallery-item-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: var(--sidebar-bg);
+            color: var(--text-color);
+            border: none;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .tab.active, .tab:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Animation for staggered loading */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Apply staggered animation to gallery items */
+        .gallery-grid .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-grid .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-grid .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-grid .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-grid .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-grid .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-grid .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-grid .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .gallery-item img {
+                height: 150px;
+            }
+            
+            .gallery-item-info h3 {
+                font-size: 1rem;
+            }
+            
+            .tabs {
+                margin-bottom: 20px;
+            }
+            
+            .tab {
+                padding: 8px 15px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Modal -->
+    <div class="loading-modal" id="loading-modal">
+        <div id="random-avatar-container">
+            <!-- Random avatar will be inserted here by JavaScript -->
+        </div>
+        <h2>Weird AI Bots On The Way...</h2>
+        <div class="progress-container">
+            <div class="progress-bar" id="loading-progress-bar"></div>
+            <div class="progress-emoji">🤖</div>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="banner.webp" alt="Banner Image">
+        <div class="banner-overlay">
+            <div class="header-container">
+                <img src="http://localhost:3000/images/avatar-photos/confused-looking-bot.webp" alt="Confused Bot" class="header-avatar">
+                <h1>AI Assistant Library</h1>
+            </div>
+            <p>A collection of AI assistant configurations by <a href="https://danielrosehill.com" target="_blank" rel="noopener">Daniel Rosehill</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="search-container">
+                    <div class="nav-links">
+                        <a href="/" class="nav-link">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                        <a href="/gallery" class="nav-link active">
+                            <i class="fas fa-images"></i> Avatar Gallery
+                        </a>
+                    </div>
+                <a href="https://github.com/danielrosehill/AI-Assistant-System-Prompt-Library-0325-Export/releases/download/V1/configs.zip" class="download-configs-btn">
+                    <i class="fas fa-download"></i> Download All Configs
+                </a>
+                <div class="search-input-container">
+                    <input type="text" id="search-input" placeholder="Search configurations...">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <button id="reset-search-button" class="reset-btn"><i class="fas fa-times"></i> Reset</button>
+            </div>
+            <div class="sidebar-content">
+                <h2>Configurations</h2>
+                <ul id="config-list">
+                    <!-- Configuration links will be populated here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="gallery-container">
+                <div class="gallery-header">
+                    <h2>AI Assistant Avatar Gallery</h2>
+                    <p>Browse through the collection of AI assistant avatars used in the configurations.</p>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab active" data-category="all">All Avatars</button>
+                    <button class="tab" data-category="robots">Robots</button>
+                    <button class="tab" data-category="sloths">Sloths</button>
+                    <button class="tab" data-category="animals">Animals</button>
+                    <button class="tab" data-category="abstract">Abstract</button>
+                </div>
+                
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- Robots Category -->
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/confused-looking-bot.webp" alt="Confused Looking Bot" onclick="openModal('http://localhost:3000/images/avatar-photos/confused-looking-bot.webp', 'Confused Looking Bot')">
+                        <div class="gallery-item-info">
+                            <h3>Confused Looking Bot</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/glum-android.webp" alt="Glum Android" onclick="openModal('http://localhost:3000/images/avatar-photos/glum-android.webp', 'Glum Android')">
+                        <div class="gallery-item-info">
+                            <h3>Glum Android</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/android-and-laptop-wide.webp" alt="Android and Laptop" onclick="openModal('http://localhost:3000/images/avatar-photos/android-and-laptop-wide.webp', 'Android and Laptop')">
+                        <div class="gallery-item-info">
+                            <h3>Android and Laptop</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/android-and-whiteboard.webp" alt="Android and Whiteboard" onclick="openModal('http://localhost:3000/images/avatar-photos/android-and-whiteboard.webp', 'Android and Whiteboard')">
+                        <div class="gallery-item-info">
+                            <h3>Android and Whiteboard</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/android-between-people.webp" alt="Android Between People" onclick="openModal('http://localhost:3000/images/avatar-photos/android-between-people.webp', 'Android Between People')">
+                        <div class="gallery-item-info">
+                            <h3>Android Between People</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/android-celebrating-bday-with-humans.webp" alt="Android Birthday" onclick="openModal('http://localhost:3000/images/avatar-photos/android-celebrating-bday-with-humans.webp', 'Android Birthday')">
+                        <div class="gallery-item-info">
+                            <h3>Android Birthday</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/unhappy-android-in-chair.webp" alt="Unhappy Android" onclick="openModal('http://localhost:3000/images/avatar-photos/unhappy-android-in-chair.webp', 'Unhappy Android')">
+                        <div class="gallery-item-info">
+                            <h3>Unhappy Android</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="robots">
+                        <img src="http://localhost:3000/images/avatar-photos/bot-and-laptop-speech-bubble.webp" alt="Bot with Laptop" onclick="openModal('http://localhost:3000/images/avatar-photos/bot-and-laptop-speech-bubble.webp', 'Bot with Laptop')">
+                        <div class="gallery-item-info">
+                            <h3>Bot with Laptop</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Sloths Category -->
+                    <div class="gallery-item" data-category="sloths">
+                        <img src="http://localhost:3000/images/avatar-photos/sloth-and-bot.webp" alt="Sloth and Bot" onclick="openModal('http://localhost:3000/images/avatar-photos/sloth-and-bot.webp', 'Sloth and Bot')">
+                        <div class="gallery-item-info">
+                            <h3>Sloth and Bot</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="sloths">
+                        <img src="http://localhost:3000/images/avatar-photos/sloth-detective.webp" alt="Sloth Detective" onclick="openModal('http://localhost:3000/images/avatar-photos/sloth-detective.webp', 'Sloth Detective')">
+                        <div class="gallery-item-info">
+                            <h3>Sloth Detective</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="sloths">
+                        <img src="http://localhost:3000/images/avatar-photos/sloth-director.webp" alt="Sloth Director" onclick="openModal('http://localhost:3000/images/avatar-photos/sloth-director.webp', 'Sloth Director')">
+                        <div class="gallery-item-info">
+                            <h3>Sloth Director</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="sloths">
+                        <img src="http://localhost:3000/images/avatar-photos/sloth-in-hammock-with-laptop.webp" alt="Sloth in Hammock" onclick="openModal('http://localhost:3000/images/avatar-photos/sloth-in-hammock-with-laptop.webp', 'Sloth in Hammock')">
+                        <div class="gallery-item-info">
+                            <h3>Sloth in Hammock</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="sloths">
+                        <img src="http://localhost:3000/images/avatar-photos/sloth-librarian.webp" alt="Sloth Librarian" onclick="openModal('http://localhost:3000/images/avatar-photos/sloth-librarian.webp', 'Sloth Librarian')">
+                        <div class="gallery-item-info">
+                            <h3>Sloth Librarian</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="sloths">
+                        <img src="http://localhost:3000/images/avatar-photos/sloth-boxer.webp" alt="Sloth Boxer" onclick="openModal('http://localhost:3000/images/avatar-photos/sloth-boxer.webp', 'Sloth Boxer')">
+                        <div class="gallery-item-info">
+                            <h3>Sloth Boxer</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Animals Category -->
+                    <div class="gallery-item" data-category="animals">
+                        <img src="http://localhost:3000/images/avatar-photos/cat-and-keyboard.webp" alt="Cat and Keyboard" onclick="openModal('http://localhost:3000/images/avatar-photos/cat-and-keyboard.webp', 'Cat and Keyboard')">
+                        <div class="gallery-item-info">
+                            <h3>Cat and Keyboard</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="animals">
+                        <img src="http://localhost:3000/images/avatar-photos/cat-in-cinema.webp" alt="Cat in Cinema" onclick="openModal('http://localhost:3000/images/avatar-photos/cat-in-cinema.webp', 'Cat in Cinema')">
+                        <div class="gallery-item-info">
+                            <h3>Cat in Cinema</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="animals">
+                        <img src="http://localhost:3000/images/avatar-photos/fox-typing.webp" alt="Fox Typing" onclick="openModal('http://localhost:3000/images/avatar-photos/fox-typing.webp', 'Fox Typing')">
+                        <div class="gallery-item-info">
+                            <h3>Fox Typing</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="animals">
+                        <img src="http://localhost:3000/images/avatar-photos/monkey-looking-at-laptop.webp" alt="Monkey with Laptop" onclick="openModal('http://localhost:3000/images/avatar-photos/monkey-looking-at-laptop.webp', 'Monkey with Laptop')">
+                        <div class="gallery-item-info">
+                            <h3>Monkey with Laptop</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="animals">
+                        <img src="http://localhost:3000/images/avatar-photos/tech-support-penguin.webp" alt="Tech Support Penguin" onclick="openModal('http://localhost:3000/images/avatar-photos/tech-support-penguin.webp', 'Tech Support Penguin')">
+                        <div class="gallery-item-info">
+                            <h3>Tech Support Penguin</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Abstract Category -->
+                    <div class="gallery-item" data-category="abstract">
+                        <img src="http://localhost:3000/images/avatar-photos/api-botsi-n-case.webp" alt="API Bots in Case" onclick="openModal('http://localhost:3000/images/avatar-photos/api-botsi-n-case.webp', 'API Bots in Case')">
+                        <div class="gallery-item-info">
+                            <h3>API Bots in Case</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="abstract">
+                        <img src="http://localhost:3000/images/avatar-photos/clouds-on-shelves.webp" alt="Clouds on Shelves" onclick="openModal('http://localhost:3000/images/avatar-photos/clouds-on-shelves.webp', 'Clouds on Shelves')">
+                        <div class="gallery-item-info">
+                            <h3>Clouds on Shelves</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="abstract">
+                        <img src="http://localhost:3000/images/avatar-photos/man-with-cloud-head.webp" alt="Man with Cloud Head" onclick="openModal('http://localhost:3000/images/avatar-photos/man-with-cloud-head.webp', 'Man with Cloud Head')">
+                        <div class="gallery-item-info">
+                            <h3>Man with Cloud Head</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>AI Assistant Library by <a href="https://danielrosehill.com" target="_blank" rel="noopener">Daniel Rosehill</a> | 2024-2025</p>
+        <p><a href="https://github.com/username/repository" target="_blank" rel="noopener">View on GitHub</a></p>
+    </footer>
+    
+    <!-- Modal for avatar images -->
+    <div id="avatar-modal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-img">
+        <div id="modal-caption"></div>
+    </div>
+    
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gallery filtering
+            const tabs = document.querySelectorAll('.tab');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Get category
+                    const category = this.getAttribute('data-category');
+                    
+                    // Filter gallery items
+                    galleryItems.forEach(item => {
+                        if (category === 'all' || item.getAttribute('data-category') === category) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+        
+        // Open modal for avatar image (reusing the function from scripts.js)
+        function openModal(src, name) {
+            const modal = document.getElementById('avatar-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalCaption = document.getElementById('modal-caption');
+            
+            modal.style.display = "block";
+            modalImg.src = src;
+            modalCaption.innerHTML = name;
+        }
+    </script>
+</body>
+</html>

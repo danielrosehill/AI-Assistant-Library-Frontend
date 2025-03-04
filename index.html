@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel's Weird Bot Farm | AI Assistant Library</title>
+    <meta name="description" content="A collection of AI assistant configurations and system prompts created by Daniel Rosehill between 2024 and 2025.">
+    <meta name="keywords" content="AI, artificial intelligence, assistant, system prompts, configurations, Daniel Rosehill">
+    <meta name="author" content="Daniel Rosehill">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Daniel's Weird Bot Farm | AI Assistant Library">
+    <meta property="og:description" content="A collection of AI assistant configurations and system prompts created by Daniel Rosehill.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aiagents.bydanielrosehill.com">
+    <meta property="og:image" content="https://aiagents.bydanielrosehill.com/banner.webp">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://aiagents.bydanielrosehill.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Monoton&family=Orbitron:wght@400;700&family=Pacifico&family=Press+Start+2P&family=Exo+2:wght@400;700&family=Audiowide&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Modal -->
+    <div class="loading-modal" id="loading-modal">
+        <div id="random-avatar-container">
+            <!-- Random avatar will be inserted here by JavaScript -->
+        </div>
+        <h2>Weird AI Bots On The Way...</h2>
+        <div class="progress-container">
+            <div class="progress-bar" id="loading-progress-bar"></div>
+            <div class="progress-emoji">🤖</div>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="banner.webp" alt="Banner Image">
+        <div class="banner-overlay">
+            <div class="header-container">
+                <img src="http://localhost:3000/images/avatar-photos/confused-looking-bot.webp" alt="Confused Bot" class="header-avatar">
+                <h1>Daniel's Weird Bot Farm</h1>
+                <h2 class="subtitle">(AI Assistant Library)</h2>
+            </div>
+            <p class="tagline">Sometimes useful, often weird, occasionally entertaining</p>
+            <p>System prompts + descriptions + names</p>
+            <p class="author-credit">By <a href="https://danielrosehill.com" target="_blank" rel="noopener">Daniel Rosehill</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="search-container">
+                <div class="nav-links">
+                    <a href="/" class="nav-link active">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="/gallery" class="nav-link">
+                        <i class="fas fa-images"></i> Avatar Gallery
+                    </a>
+                </div>
+                <a href="https://github.com/danielrosehill/AI-Assistant-System-Prompt-Library-0325-Export/releases/download/V1/configs.zip" class="download-configs-btn">
+                    <i class="fas fa-download"></i> Download All Configs
+                </a>
+                <div class="search-input-container">
+                    <input type="text" id="search-input" placeholder="Search configurations...">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <button id="reset-search-button" class="reset-btn"><i class="fas fa-times"></i> Reset</button>
+            </div>
+            <div class="sidebar-content">
+                <h2>Configurations</h2>
+                <ul id="config-list">
+                    <!-- Configuration links will be populated here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="welcome-message">
+                <h2>Welcome to the AI Assistant Library!</h2>
+                <div class="welcome-avatars">
+                    <img src="http://localhost:3000/images/avatar-photos/glum-android.webp" alt="Glum Android" class="welcome-avatar" onclick="openModal('http://localhost:3000/images/avatar-photos/glum-android.webp', 'Glum Android')">
+                    <img src="http://localhost:3000/images/avatar-photos/sloth-detective.webp" alt="Sloth Detective" class="welcome-avatar" onclick="openModal('http://localhost:3000/images/avatar-photos/sloth-detective.webp', 'Sloth Detective')">
+                    <img src="http://localhost:3000/images/avatar-photos/tech-support-penguin.webp" alt="Tech Support Penguin" class="welcome-avatar" onclick="openModal('http://localhost:3000/images/avatar-photos/tech-support-penguin.webp', 'Tech Support Penguin')">
+                </div>
+                <p>This website showcases a collection of AI assistant configurations created by Daniel Rosehill between 2024 and 2025.</p>
+                <p>Browse through the configurations using the sidebar navigation or search for specific ones using the search box.</p>
+                <p>Each configuration includes:</p>
+                <ul>
+                    <li>A descriptive name</li>
+                    <li>A detailed description</li>
+                    <li>The system prompt used to configure the AI assistant</li>
+                </ul>
+                <p>You can easily copy the system prompts to your clipboard or download the entire configuration as a markdown file.</p>
+                <p>Select a configuration from the sidebar to get started!</p>
+            </div>
+            <div id="config-display" style="display: none;">
+                <!-- Configuration details will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>AI Assistant Library by <a href="https://danielrosehill.com" target="_blank" rel="noopener">Daniel Rosehill</a> | 2024-2025</p>
+        <p><a href="https://github.com/username/repository" target="_blank" rel="noopener">View on GitHub</a></p>
+    </footer>
+    
+    <!-- Modal for avatar images -->
+    <div id="avatar-modal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-img">
+        <div id="modal-caption"></div>
+    </div>
+    
+    <script src="scripts.js"></script>
+</body>
+</html>
