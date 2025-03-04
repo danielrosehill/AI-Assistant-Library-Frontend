@@ -20,8 +20,8 @@ if ! npx wrangler whoami &> /dev/null; then
 fi
 
 # Deploy the site
-echo -e "${YELLOW}Deploying site to Cloudflare...${NC}"
-npx wrangler deploy
+echo -e "${YELLOW}Deploying site to Cloudflare Pages...${NC}"
+npx wrangler pages deploy ./ --project-name=ai-assistant-library
 
 # Check if deployment was successful
 if [ $? -eq 0 ]; then

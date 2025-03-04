@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalImg = document.getElementById('modal-img');
     const modalCaption = document.getElementById('modal-caption');
     const modalClose = document.querySelector('.modal-close');
+    const randomConfigBtn = document.getElementById('random-config-btn');
+    const mobileRandomConfigBtn = document.getElementById('mobile-random-config-btn');
     
     // Mobile search elements
     const mobileSearchInput = document.getElementById('mobile-search-input');
@@ -125,7 +127,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Store all configurations
     let allConfigurations = [];
-    
+    // Function to load a random configuration
+    function loadRandomConfiguration() {
+        if (allConfigurations.length === 0) {
+            showToast('No configurations available');
+            return;
+        }
+        
+        const randomIndex = Math.floor(Math.random() * allConfigurations.length);
+        const randomConfig = allConfigurations[randomIndex];
+        
+        loadConfiguration(randomConfig.filename);
+        
+        // Highlight the selected config in the sidebar
+        const configLinks = document.querySelectorAll('#config-list a');
+        configLinks.forEach(link => {
+            if (link.getAttribute('data-filename') === randomConfig.filename) {
+                link.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
     // Fetch the list of configuration files
     fetch('configs-list.json')
         .then(response => response.json())
@@ -140,6 +161,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update the configuration count display
             updateConfigCount(allConfigurations.length);
             populateConfigList(allConfigurations);
+            
+            // Add event listeners for random config buttons
+            if (randomConfigBtn) {
+                randomConfigBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loadRandomConfiguration();
+                });
+            }
+            
+            
         })
         .catch(error => {
             console.error('Error fetching configurations:', error);
@@ -274,6 +305,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === 'Enter') {
                 performSearch(mobileSearchInput.value);
             }
+        });
+    }
+    
+    // Mobile random config button
+    if (mobileRandomConfigBtn) {
+        mobileRandomConfigBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            loadRandomConfiguration();
         });
     }
     
