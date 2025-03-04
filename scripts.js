@@ -80,19 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Store all configurations
     let allConfigurations = [];
     
-    // Define categories for grouping configurations
-    const categories = {
-        "Productivity": ["assistant-ideator-productivity", "daily-planner", "chore-helper", "data-organisation-sidekick"],
-        "Development": ["code-editor-general", "code-generation-general", "api-finder", "debugger-general-purpose", "android-development"],
-        "Entertainment": ["assistant-ideator-entertainment", "adventure-sloth", "alien-visitor", "confused-ai-bot"],
-        "Business": ["business-assistant-ideator", "company-approach-strategist", "communications-strategist-on-call"],
-        "Data & Analysis": ["data-visualization-ideator", "data-scraping-agent", "data-trends-identifier"],
-        "Writing & Editing": ["assistant-ideator-writing-and-editing", "biography-creator-third-person", "dictated-text-doctor"],
-        "Tech Support": ["debugger-general-tech-suport", "cloudflare-helper", "tech-support-penguin"],
-        "AI Tools": ["ai-agent-debugger", "ai-capability-advisor", "ai-tool-finder", "assistant-configuration-editor"],
-        "Miscellaneous": [] // For items that don't fit other categories
-    };
-    
     // Fetch the list of configuration files
     fetch('configs-list.json')
         .then(response => response.json())
@@ -103,108 +90,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             allConfigurations = data;
-            categorizeConfigurations(allConfigurations);
+            populateConfigList(allConfigurations);
         })
         .catch(error => {
             console.error('Error fetching configurations:', error);
             configList.innerHTML = '<li>Error loading configurations. Please make sure configs-list.json exists.</li>';
         });
-    
-    // Categorize configurations and populate the sidebar
-    function categorizeConfigurations(configurations) {
-        // Sort configurations alphabetically by name
-        configurations.sort((a, b) => a.name.localeCompare(b.name));
-        
-        // Group configurations by category
-        const categorizedConfigs = {};
-        
-        // Initialize categories
-        Object.keys(categories).forEach(category => {
-            categorizedConfigs[category] = [];
-        });
-        
-        // Assign configurations to categories
-        configurations.forEach(config => {
-            let assigned = false;
-            
-            // Check if the configuration matches any category
-            for (const [category, patterns] of Object.entries(categories)) {
-                if (patterns.some(pattern => 
-                    config.filename.toLowerCase().includes(pattern.toLowerCase()) || 
-                    config.name.toLowerCase().includes(pattern.toLowerCase())
-                )) {
-                    categorizedConfigs[category].push(config);
-                    assigned = true;
-                    break;
-                }
-            }
-            
-            // If not assigned to any category, put in Miscellaneous
-            if (!assigned) {
-                categorizedConfigs["Miscellaneous"].push(config);
-            }
-        });
-        
-        populateCategorizedList(categorizedConfigs);
-        populateHomepageCategories(categorizedConfigs);
-    }
-    
-    // Populate the homepage with category buttons
-    function populateHomepageCategories(categorizedConfigs) {
-        const welcomeMessage = document.getElementById('welcome-message');
-        
-        // Create category buttons container
-        const categoryButtonsContainer = document.createElement('div');
-        categoryButtonsContainer.className = 'category-buttons';
-        
-        // Add heading
-        const heading = document.createElement('h3');
-        heading.textContent = 'Browse by Category';
-        heading.className = 'category-heading';
-        categoryButtonsContainer.appendChild(heading);
-        
-        // Add category buttons
-        Object.entries(categorizedConfigs).forEach(([category, configs]) => {
-            if (configs.length > 0) {
-                const categoryButton = document.createElement('div');
-                categoryButton.className = 'category-button';
-                
-                // Get a random avatar from this category if available
-                let avatarSrc = '';
-                if (configs.length > 0) {
-                    // Use a default avatar from the list for now
-                    // We'll update this when we load the actual config data
-                    avatarSrc = avatarImages[Math.floor(Math.random() * avatarImages.length)];
-                }
-                
-                categoryButton.innerHTML = `
-                    <img src="${avatarSrc}" alt="${category}" class="category-avatar">
-                    <h4>${category}</h4>
-                    <span class="config-count">${configs.length} configs</span>
-                `;
-                
-                categoryButton.addEventListener('click', function() {
-                    // Expand this category in the sidebar
-                    const categoryHeader = document.querySelector(`.category-header[data-category="${category}"]`);
-                    if (categoryHeader) {
-                        categoryHeader.click();
-                        // Scroll to the category in the sidebar
-                        categoryHeader.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-                
-                categoryButtonsContainer.appendChild(categoryButton);
-            }
-        });
-        
-        // Insert after the welcome avatars
-        const welcomeAvatars = document.querySelector('.welcome-avatars');
-        if (welcomeAvatars && welcomeAvatars.nextSibling) {
-            welcomeMessage.insertBefore(categoryButtonsContainer, welcomeAvatars.nextSibling);
-        } else {
-            welcomeMessage.appendChild(categoryButtonsContainer);
-        }
-    }
     
     // Populate the sidebar with configuration links
     function populateConfigList(configurations) {
@@ -229,74 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             listItem.appendChild(link);
             configList.appendChild(listItem);
-        });
-    }
-    
-    // Populate the sidebar with categorized configuration links
-    function populateCategorizedList(categorizedConfigs) {
-        // Clear existing list
-        configList.innerHTML = '';
-        
-        // Add each category and its configurations
-        Object.entries(categorizedConfigs).forEach(([category, configs]) => {
-            if (configs.length > 0) {
-                const categoryItem = document.createElement('li');
-                categoryItem.className = 'category-item';
-                
-                const categoryHeader = document.createElement('div');
-                categoryHeader.className = 'category-header';
-                categoryHeader.setAttribute('data-category', category);
-                categoryHeader.innerHTML = `
-                    <span class="category-name">${category}</span>
-                    <span class="category-count">${configs.length}</span>
-                    <i class="fas fa-chevron-down"></i>
-                `;
-                
-                const categoryContent = document.createElement('ul');
-                categoryContent.className = 'category-content';
-                
-                // Add configuration links
-                configs.forEach(config => {
-                    const configItem = document.createElement('li');
-                    const link = document.createElement('a');
-                    link.href = '#';
-                    link.textContent = config.name;
-                    link.setAttribute('data-filename', config.filename);
-                    
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        loadConfiguration(config.filename);
-                    });
-                    
-                    configItem.appendChild(link);
-                    categoryContent.appendChild(configItem);
-                });
-                
-                // Toggle category expansion
-                categoryHeader.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const content = this.nextElementSibling;
-                    const allContents = document.querySelectorAll('.category-content');
-                    
-                    // Close other open categories
-                    allContents.forEach(item => {
-                        if (item !== content && item.style.maxHeight) {
-                            item.style.maxHeight = null;
-                            item.previousElementSibling.classList.remove('active');
-                        }
-                    });
-                    
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + "px";
-                    }
-                });
-                
-                categoryItem.appendChild(categoryHeader);
-                categoryItem.appendChild(categoryContent);
-                configList.appendChild(categoryItem);
-            }
         });
     }
     
@@ -343,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="config-section">
                 <h3>System Prompt</h3>
                 <div class="system-prompt">
-                    <pre>${config.systemPrompt.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+                    <pre>${config.systemPrompt.replace(/</g, '<').replace(/>/g, '>')}</pre>
                     <button class="copy-btn" onclick="copyToClipboard('${escapeJS(config.systemPrompt)}')">
                         <i class="fas fa-clipboard"></i> Copy
                     </button>
@@ -378,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
     resetSearchButton.addEventListener('click', function() {
         searchInput.value = '';
         if (mobileSearchInput) mobileSearchInput.value = '';
-        categorizeConfigurations(allConfigurations);
+        populateConfigList(allConfigurations);
     });
     
     // Mobile search button
@@ -392,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileResetButton) {
         mobileResetButton.addEventListener('click', function() {
             if (mobileSearchInput) mobileSearchInput.value = '';
-            categorizeConfigurations(allConfigurations);
+            populateConfigList(allConfigurations);
         });
     }
     
@@ -415,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (searchTerm === '') {
-            categorizeConfigurations(allConfigurations);
+            populateConfigList(allConfigurations);
             return;
         }
         

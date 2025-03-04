@@ -17,8 +17,8 @@
   ],
   "author": "Daniel Rosehill",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "serve": "^14.0.0"
+    "serve": "^14.0.0",
+    "wrangler": "^3.112.0"
   }
 }
