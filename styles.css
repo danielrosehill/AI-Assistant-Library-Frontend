@@ -196,10 +196,11 @@ body {
 .sidebar {
     width: 300px;
     background-color: var(--sidebar-bg);
-    padding: 20px;
+    padding: 20px 15px;
     border-right: 3px solid var(--accent-color);
     overflow-y: auto;
     max-height: calc(100vh - 200px - 60px);
+    transition: max-height 0.3s ease;
 }
 
 .search-container {
@@ -723,27 +724,37 @@ footer a:hover {
 @media (max-width: 768px) {
     .container {
         flex-direction: column-reverse;
-        min-height: auto;
+        min-height: unset;
     }
     
     .sidebar {
         width: 100%;
-        max-height: 300px;
+        max-height: 350px;
         border-right: none;
         border-bottom: 3px solid var(--accent-color);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .main-content {
+        padding: 20px 15px;
     }
     
     .banner-overlay h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
     
     .banner-overlay h2.subtitle {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .banner-overlay p.tagline {
+        font-size: 0.9rem;
+    }
+    
+    .banner-overlay p {
         font-size: 1rem;
     }
     
@@ -753,6 +764,12 @@ footer a:hover {
     
     .header-avatar {
         margin-bottom: 10px;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .banner {
+        height: 180px;
     }
     
     .config-header {
@@ -774,6 +791,11 @@ footer a:hover {
         width: 100%;
         margin-bottom: 10px;
         justify-content: center;
+    }
+    
+    .category-header {
+        padding: 15px;
+        font-size: 1.1rem;
     }
     
     .category-buttons {
@@ -800,6 +822,7 @@ footer a:hover {
     
     .modal-content {
         max-width: 95%;
+        max-height: 90%;
     }
     
     .download-configs-btn {
@@ -811,4 +834,301 @@ footer a:hover {
         padding: 12px 15px;
         font-size: 1rem;
     }
+
+    .category-content a {
+        padding: 12px 10px;
+        margin: 5px 0;
+    }
+    
+    .loading-modal img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .progress-container {
+        width: 250px;
+    }
+    
+    .loading-modal h2 {
+        font-size: 1.2rem;
+        padding: 0 15px;
+        text-align: center;
+    }
+    
+    .welcome-avatars {
+        gap: 10px;
+    }
+    
+    .welcome-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    #welcome-message h2 {
+        font-size: 1.5rem;
+    }
+    
+    .system-prompt {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .copy-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .config-title h2 {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+}
+
+/* Additional media query for extra small devices */
+@media (max-width: 480px) {
+    .banner-overlay h1 {
+        font-size: 1.2rem;
+    }
+    
+    .banner-overlay h2.subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .banner-overlay p.tagline {
+        font-size: 0.8rem;
+    }
+    
+    .banner-overlay p {
+        font-size: 0.9rem;
+    }
+    
+    .banner {
+        height: 160px;
+    }
+    
+    .header-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .nav-link {
+        margin: 0;
+        padding: 12px 5px;
+    }
+    
+    .search-input-container {
+        flex-direction: column;
+    }
+    
+    #search-input {
+        border-radius: 5px;
+    }
+    
+    #search-button {
+        border-radius: 5px;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+/* Add a fixed navigation for mobile */
+@media (max-width: 768px) {
+    /* Create a fixed mobile navigation */
+    /* Mobile navigation at the top */
+    .mobile-nav-container {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+        background-color: var(--sidebar-bg);
+        border-bottom: 3px solid var(--accent-color);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .mobile-nav {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+    
+    .mobile-search-bar {
+        display: flex;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    
+    #mobile-search-input {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid var(--primary-color);
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--text-color);
+        border-radius: 5px 0 0 5px;
+        font-size: 1rem;
+    }
+    
+    #mobile-search-button {
+        padding: 12px 15px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    
+    #mobile-reset-button {
+        padding: 12px 15px;
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-left: 10px;
+    }
+    
+    .mobile-nav-item {
+        display: flex;
+        align-items: center;
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 0.9rem;
+        padding: 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .mobile-nav-item i {
+        font-size: 1.2rem;
+        margin-right: 5px;
+    }
+    
+    .mobile-nav-item:hover, .mobile-nav-item.active {
+        background-color: var(--primary-color);
+    }
+    
+    /* Add space at the top for the fixed navigation */
+    body {
+        padding-top: 0;
+    }
+    
+    /* Hide the original sidebar navigation on mobile */
+    .sidebar .nav-links, 
+    .sidebar .download-configs-btn,
+    .sidebar .search-input-container,
+    .sidebar #reset-search-button {
+        display: none;
+    }
+    
+    /* Adjust banner for mobile */
+    .banner {
+        margin-top: 0;
+    }
+    
+    /* Reverse the container order to put sidebar at the bottom */
+    .container {
+        flex-direction: column;
+    }
+    
+    /* Make sidebar more compact */
+    .sidebar {
+        width: 100%;
+        max-height: 300px;
+        border-right: none;
+        border-top: 3px solid var(--accent-color);
+        overflow-y: auto;
+    }
+    
+    .sidebar-content {
+        padding: 10px 5px 20px;
+    }
+    
+    .sidebar-content h2 {
+        margin-top: 0;
+    }
+    
+    /* Other mobile optimizations */
+    .category-content a, 
+    .action-btn,
+    .copy-btn {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .config-section {
+        margin-bottom: 25px;
+    }
+    
+    .system-prompt {
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+    
+    .modal-close {
+        font-size: 50px;
+        padding: 10px;
+        top: 10px;
+    }
+    
+    .banner-overlay {
+        justify-content: flex-start;
+        padding-top: 15px;
+    }
+    
+    #welcome-message {
+        margin-bottom: 20px;
+    }
+    
+    footer {
+        padding: 15px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .sidebar, .main-content {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+    
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    input, button {
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 5px;
+    }
+    
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+    
+    .system-prompt pre {
+        font-size: 0.9rem;
+    }
+    
+    a, button {
+        -webkit-tap-highlight-color: rgba(106, 13, 173, 0.3);
+    }
+    
+    * {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .main-content, .sidebar, .banner-overlay, #welcome-message, #config-display {
+        overflow-wrap: break-word;
+        
+    /* Adjust loading modal for mobile */
+    .loading-modal {
+        z-index: 2000; /* Ensure it's above the mobile nav */
+    }
+}
 }

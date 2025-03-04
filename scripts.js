@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalCaption = document.getElementById('modal-caption');
     const modalClose = document.querySelector('.modal-close');
     
+    // Mobile search elements
+    const mobileSearchInput = document.getElementById('mobile-search-input');
+    const mobileSearchButton = document.getElementById('mobile-search-button');
+    const mobileResetButton = document.getElementById('mobile-reset-button');
+    
     // List of funny avatar images to randomly select from
     const avatarImages = [
         'http://localhost:3000/images/avatar-photos/glum-android.webp',
@@ -365,18 +370,49 @@ document.addEventListener('DOMContentLoaded', function() {
     searchButton.addEventListener('click', performSearch);
     searchInput.addEventListener('keyup', function(e) {
         if (e.key === 'Enter') {
-            performSearch();
+            performSearch(searchInput.value);
         }
     });
     
     // Reset search functionality
     resetSearchButton.addEventListener('click', function() {
         searchInput.value = '';
+        if (mobileSearchInput) mobileSearchInput.value = '';
         categorizeConfigurations(allConfigurations);
     });
     
-    function performSearch() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
+    // Mobile search button
+    if (mobileSearchButton) {
+        mobileSearchButton.addEventListener('click', function() {
+            performSearch(mobileSearchInput.value);
+        });
+    }
+    
+    // Mobile reset button
+    if (mobileResetButton) {
+        mobileResetButton.addEventListener('click', function() {
+            if (mobileSearchInput) mobileSearchInput.value = '';
+            categorizeConfigurations(allConfigurations);
+        });
+    }
+    
+    // Mobile search input
+    if (mobileSearchInput) {
+        mobileSearchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                performSearch(mobileSearchInput.value);
+            }
+        });
+    }
+    
+    function performSearch(inputValue) {
+        const searchTerm = (inputValue || searchInput.value).toLowerCase().trim();
+        
+        // Sync the search inputs
+        searchInput.value = searchTerm;
+        if (mobileSearchInput) {
+            mobileSearchInput.value = searchTerm;
+        }
         
         if (searchTerm === '') {
             categorizeConfigurations(allConfigurations);
@@ -486,7 +522,7 @@ function showToast(message) {
                 position: fixed;
                 bottom: 30px;
                 left: 50%;
-                transform: translateX(-50%);
+                transform: translate(-50%, 0);
                 background-color: rgba(106, 13, 173, 0.9);
                 color: white;
                 padding: 10px 20px;
@@ -496,6 +532,13 @@ function showToast(message) {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
                 opacity: 0;
                 transition: opacity 0.3s;
+                text-align: center;
+            }
+            
+            @media (max-width: 768px) {
+                #toast {
+                    bottom: 20px; /* Position at the bottom with space */
+                }
             }
             
             #toast.show {
@@ -546,3 +589,35 @@ function fallbackCopyToClipboard(text) {
         showToast('Failed to copy text. Your browser may not support this feature.');
     }
 }
+
+// Set active state for mobile navigation
+document.addEventListener('DOMContentLoaded', function() {
+    // Set active class for current page in mobile nav
+    const currentPath = window.location.pathname;
+    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+    
+    mobileNavItems.forEach(item => {
+        const itemPath = item.getAttribute('href');
+        if (itemPath === currentPath || (currentPath === '/' && itemPath === '/')) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+    
+    // Sync search inputs
+    const searchInput = document.getElementById('search-input');
+    const mobileSearchInput = document.getElementById('mobile-search-input');
+    
+    if (searchInput && mobileSearchInput) {
+        // Sync desktop to mobile
+        searchInput.addEventListener('input', function() {
+            mobileSearchInput.value = this.value;
+        });
+        
+        // Sync mobile to desktop
+        mobileSearchInput.addEventListener('input', function() {
+            searchInput.value = this.value;
+        });
+    }
+});
