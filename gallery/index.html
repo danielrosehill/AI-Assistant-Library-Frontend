@@ -14,6 +14,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://aiagents.bydanielrosehill.com/gallery.html">
     <meta property="og:image" content="https://aiagents.bydanielrosehill.com/banner.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Assistant Library | Avatar Gallery">
+    <meta name="twitter:description" content="A gallery of AI assistant avatars created by Daniel Rosehill.">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://aiagents.bydanielrosehill.com/gallery.html">
@@ -21,7 +28,7 @@
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Monoton&family=Orbitron:wght@400;700&family=Pacifico&family=Press+Start+2P&family=Exo+2:wght@400;700&family=Audiowide&display=swap" rel="stylesheet">
     <style>
@@ -160,6 +167,7 @@
             <!-- Random avatar will be inserted here by JavaScript -->
         </div>
         <h2>Weird AI Bots On The Way...</h2>
+        <p class="desktop-notice">This site is best viewed on a desktop device</p>
         <div class="progress-container">
             <div class="progress-bar" id="loading-progress-bar"></div>
             <div class="progress-emoji">🤖</div>
@@ -167,7 +175,7 @@
     </div>
 
     <div class="banner">
-        <img src="banner.webp" alt="Banner Image">
+        <img src="../banner.webp" alt="Banner Image">
         <div class="banner-overlay">
             <div class="header-container">
                 <img src="/images/avatar-photos/confused-looking-bot.webp" alt="Confused Bot" class="header-avatar">
@@ -198,7 +206,7 @@
                 <button id="reset-search-button" class="reset-btn"><i class="fas fa-times"></i> Reset</button>
             </div>
             <div class="sidebar-content">
-                <h2>Configurations</h2>
+                <h2>Configurations <span class="config-count-small">(600)</span></h2>
                 <ul id="config-list">
                     <!-- Configuration links will be populated here by JavaScript -->
                 </ul>
@@ -239,81 +247,30 @@
         <div id="modal-caption"></div>
     </div>
     
-    <script src="scripts.js"></script>
+    <script src="../scripts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Avatar data with categories
-            const avatarData = [
-                // This is a mapping of avatar filenames to their categories
-                // The key is the filename, the value is the category
-                // Categories: robots, sloths, animals, abstract
-                { file: "android-and-laptop-wide.webp", category: "robots", name: "Android and Laptop" },
-                { file: "android-and-whiteboard.webp", category: "robots", name: "Android and Whiteboard" },
-                { file: "android-between-people.webp", category: "robots", name: "Android Between People" },
-                { file: "android-celebrating-bday-with-humans.webp", category: "robots", name: "Android Birthday" },
-                { file: "android-in-road.webp", category: "robots", name: "Android in Road" },
-                { file: "android-in-sift-1.webp", category: "robots", name: "Android in Sift 1" },
-                { file: "android-in-sift.webp", category: "robots", name: "Android in Sift" },
-                { file: "android-on-circuit-component.webp", category: "robots", name: "Android on Circuit" },
-                { file: "android-with-tablet.webp", category: "robots", name: "Android with Tablet" },
-                { file: "bot-and-laptop-speech-bubble.webp", category: "robots", name: "Bot with Laptop" },
-                { file: "bot-and-spreadsheet.webp", category: "robots", name: "Bot and Spreadsheet" },
-                { file: "bot-displaying-wristwatch.webp", category: "robots", name: "Bot with Watch" },
-                { file: "bot-drinking-beer-on-beach.webp", category: "robots", name: "Bot on Beach" },
-                { file: "bot-orchestration.webp", category: "robots", name: "Bot Orchestration" },
-                { file: "bots-and-spreadsheet.webp", category: "robots", name: "Bots and Spreadsheet" },
-                { file: "confused-looking-bot.webp", category: "robots", name: "Confused Looking Bot" },
-                { file: "cute-bot-typing.webp", category: "robots", name: "Cute Bot Typing" },
-                { file: "glum-android.webp", category: "robots", name: "Glum Android" },
-                { file: "unhappy-android-in-chair.webp", category: "robots", name: "Unhappy Android" },
+            // Load avatar data from JSON file
+            fetch('../avatar-list.json')
+            .then(response => response.json())
+            .then(avatarData => {
+                // Update the gallery header to show the total number of avatars
+                const galleryHeader = document.querySelector('.gallery-header p');
+                galleryHeader.textContent = `Browse through the collection of ${avatarData.length} AI assistant avatars used in the configurations.`;
                 
-                // Sloths
-                { file: "bartender-sloth.webp", category: "sloths", name: "Bartender Sloth" },
-                { file: "chef-sloth-with-frying-pan.webp", category: "sloths", name: "Chef Sloth" },
-                { file: "corporate-sloth-being-interviewed.webp", category: "sloths", name: "Corporate Sloth" },
-                { file: "ergonomic-sloth.webp", category: "sloths", name: "Ergonomic Sloth" },
-                { file: "historic-sloth-writing-prompt.webp", category: "sloths", name: "Historic Sloth" },
-                { file: "Operative-sloth.webp", category: "sloths", name: "Operative Sloth" },
-                { file: "repo-docs-sloth.webp", category: "sloths", name: "Repo Docs Sloth" },
-                { file: "serene-sloth-at-laptop.webp", category: "sloths", name: "Serene Sloth" },
-                { file: "sloth-and-android-1.webp", category: "sloths", name: "Sloth and Android 1" },
-                { file: "sloth-and-android.webp", category: "sloths", name: "Sloth and Android" },
-                { file: "sloth-and-bot-on-workbench.webp", category: "sloths", name: "Sloth and Bot on Workbench" },
-                { file: "sloth-and-bot.webp", category: "sloths", name: "Sloth and Bot" },
-                { file: "sloth-and-markdown-symbol.webp", category: "sloths", name: "Sloth and Markdown" },
-                { file: "sloth-and-monkey-laughing.webp", category: "sloths", name: "Sloth and Monkey" },
-                { file: "sloth-and-wide-screens.webp", category: "sloths", name: "Sloth and Screens" },
-                { file: "sloth-being-interviewed.webp", category: "sloths", name: "Sloth Being Interviewed" },
-                { file: "sloth-boxer.webp", category: "sloths", name: "Sloth Boxer" },
-                { file: "sloth-detective.webp", category: "sloths", name: "Sloth Detective" },
-                { file: "sloth-director.webp", category: "sloths", name: "Sloth Director" },
-                { file: "sloth-eating-popcron.webp", category: "sloths", name: "Sloth Eating Popcorn" },
-                { file: "sloth-in-hammock-with-laptop.webp", category: "sloths", name: "Sloth in Hammock" },
-                { file: "sloth-librarian.webp", category: "sloths", name: "Sloth Librarian" },
+                // Populate the gallery with all avatars
+                populateGallery(avatarData);
                 
-                // Animals
-                { file: "cat-and-keyboard.webp", category: "animals", name: "Cat and Keyboard" },
-                { file: "cat-in-cinema.webp", category: "animals", name: "Cat in Cinema" },
-                { file: "cat-typing-on-computer.webp", category: "animals", name: "Cat Typing" },
-                { file: "dog-and-speecc-bubble.webp", category: "animals", name: "Dog and Speech Bubble" },
-                { file: "fox-and-bot-1.webp", category: "animals", name: "Fox and Bot 1" },
-                { file: "fox-and-bot.webp", category: "animals", name: "Fox and Bot" },
-                { file: "fox-typing.webp", category: "animals", name: "Fox Typing" },
-                { file: "monkey-looking-at-laptop.webp", category: "animals", name: "Monkey with Laptop" },
-                { file: "monkey-sleeping-on-hammock.webp", category: "animals", name: "Monkey in Hammock" },
-                { file: "prompt-author-koala.webp", category: "animals", name: "Prompt Author Koala" },
-                { file: "tech-support-penguin.webp", category: "animals", name: "Tech Support Penguin" },
-                
-                // Abstract
-                { file: "api-botsi-n-case.webp", category: "abstract", name: "API Bots in Case" },
-                { file: "clouds-on-shelves.webp", category: "abstract", name: "Clouds on Shelves" },
-                { file: "man-with-cloud-head.webp", category: "abstract", name: "Man with Cloud Head" },
-                { file: "vision-icon.webp", category: "abstract", name: "Vision Icon" },
-                { file: "words.webp", category: "abstract", name: "Words" }
-            ];
+                // Set up filtering after gallery is populated
+                setupFiltering();
+            })
+            .catch(error => {
+                console.error('Error loading avatar list:', error);
+                document.getElementById('gallery-grid').innerHTML = '<p>Error loading avatars. Please try again later.</p>';
+            });
             
-            // Function to populate the gallery
-            function populateGallery() {
+            // Function to populate the gallery with avatar data
+            function populateGallery(avatarData) {
                 const galleryGrid = document.getElementById('gallery-grid');
                 
                 avatarData.forEach(avatar => {
@@ -331,12 +288,13 @@
                     galleryGrid.appendChild(galleryItem);
                 });
             }
-            
-            // Populate the gallery when the page loads
-            populateGallery();
-            
-            // Gallery filtering
-            const tabs = document.querySelectorAll('.tab');
+        });
+        
+        // Set up filtering functionality
+        function setupFiltering() {
+            // Wait a moment for the DOM to update with all gallery items
+            setTimeout(() => {
+                const tabs = document.querySelectorAll('.tab');
             const galleryItems = document.querySelectorAll('.gallery-item');
             
             tabs.forEach(tab => {
@@ -359,8 +317,9 @@
                         }
                     });
                 });
-            });
-        });
+            });  
+            }, 100);
+        }
         
         // Open modal for avatar image (reusing the function from scripts.js)
         function openModal(src, name) {

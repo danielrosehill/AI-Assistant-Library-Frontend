@@ -1,6 +1,7 @@
 name = "ai-assistant-library"
 compatibility_date = "2023-01-01"
+main = "workers-site/index.js"
 
 [site]
 bucket = "./"
-include = ["images/**"]
+include = ["images/**", "*.html", "*.css", "*.js", "*.webp", "*.json", "generated-configs/**", "gallery/**"]

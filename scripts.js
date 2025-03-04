@@ -30,6 +30,22 @@ document.addEventListener('DOMContentLoaded', function() {
         '/images/avatar-photos/cat-typing-on-computer.webp',
         '/images/avatar-photos/fox-typing.webp'
     ];
+
+    // List of random loading messages about AI bots
+    const loadingMessages = [
+        "AI Bots Powering Up...",
+        "Robots Learning Human Jokes...",
+        "Digital Assistants Assembling...",
+        "Neural Networks Syncing...",
+        "AI Minions Getting Ready...",
+        "Bots Calculating Responses...",
+        "Virtual Helpers Activating...",
+        "Artificial Intelligence Loading...",
+        "Bot Army Mobilizing...",
+        "Digital Brains Thinking...",
+        "AI Assistants Waking Up...",
+        "Robot Friends Connecting..."
+    ];
     
     // Select a random avatar for the loading modal
     function selectRandomAvatar() {
@@ -45,6 +61,26 @@ document.addEventListener('DOMContentLoaded', function() {
         if (randomAvatarContainer) {
             randomAvatarContainer.innerHTML = '';
             randomAvatarContainer.appendChild(avatarImg);
+        }
+    }
+
+    // Check if this is the first visit
+    function isFirstVisit() {
+        if (localStorage.getItem('hasVisitedBefore') === null) {
+            localStorage.setItem('hasVisitedBefore', 'true');
+            return true;
+        }
+        return false;
+    }
+
+    // Set loading message based on visit status
+    function setLoadingMessage() {
+        const loadingHeader = document.querySelector('.loading-modal h2');
+        const desktopNotice = document.querySelector('.desktop-notice');
+        
+        if (!isFirstVisit() && loadingHeader) {
+            loadingHeader.textContent = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+            if (desktopNotice) desktopNotice.style.display = 'none';
         }
     }
     
@@ -73,8 +109,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 50); // 50ms * 100 steps = ~5 seconds total
     }
     
+    // Function to update the configuration count
+    function updateConfigCount(count) {
+        const configCountElements = document.querySelectorAll('.config-count-small');
+        if (configCountElements.length > 0) {
+            configCountElements.forEach(element => {
+                element.textContent = `(${count})`;
+            });
+        }
+    }
     // Initialize loading animation
     selectRandomAvatar();
+    setLoadingMessage();
     animateProgressBar();
     
     // Store all configurations
@@ -90,6 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             allConfigurations = data;
+            
+            // Update the configuration count display
+            updateConfigCount(allConfigurations.length);
             populateConfigList(allConfigurations);
         })
         .catch(error => {
