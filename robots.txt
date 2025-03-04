@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://aiagents.bydanielrosehill.com/sitemap.xml
+Sitemap: https://agents.bydanielrosehill.com/sitemap.xml
 
 # Disallow build files and raw data
 Disallow: /build.js
