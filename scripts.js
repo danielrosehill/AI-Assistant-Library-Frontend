@@ -21,14 +21,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // List of funny avatar images to randomly select from
     const avatarImages = [
-        'http://localhost:3000/images/avatar-photos/glum-android.webp',
-        'http://localhost:3000/images/avatar-photos/confused-looking-bot.webp',
-        'http://localhost:3000/images/avatar-photos/unhappy-android-in-chair.webp',
-        'http://localhost:3000/images/avatar-photos/bot-and-laptop-speech-bubble.webp',
-        'http://localhost:3000/images/avatar-photos/sloth-detective.webp',
-        'http://localhost:3000/images/avatar-photos/tech-support-penguin.webp',
-        'http://localhost:3000/images/avatar-photos/cat-typing-on-computer.webp',
-        'http://localhost:3000/images/avatar-photos/fox-typing.webp'
+        '/images/avatar-photos/glum-android.webp',
+        '/images/avatar-photos/confused-looking-bot.webp',
+        '/images/avatar-photos/unhappy-android-in-chair.webp',
+        '/images/avatar-photos/bot-and-laptop-speech-bubble.webp',
+        '/images/avatar-photos/sloth-detective.webp',
+        '/images/avatar-photos/tech-support-penguin.webp',
+        '/images/avatar-photos/cat-typing-on-computer.webp',
+        '/images/avatar-photos/fox-typing.webp'
     ];
     
     // Select a random avatar for the loading modal
